@@ -15,11 +15,11 @@ const products = [
     { id: 10, name: "Phở Bò Tái Nạm", price: 60000, type: "mi", image: "images/phobo.jpg", desc: "Nước dùng phở gia truyền, bò tái mềm.", rating: 5.0 },
 
     // Nước (5 món)
-    { id: 11, name: "Trà Sữa Trân Châu", price: 25000, type: "nuoc", image: "images/hq720.jpg", desc: "Trà sữa thái, trân châu đen dai dai.", rating: 4.8 },
-    { id: 12, name: "Trà Đào Cam Sả", price: 30000, type: "nuoc", image: "images/hq720.jpg", desc: "Thanh mát, giải nhiệt, miếng đào giòn.", rating: 4.9 },
-    { id: 13, name: "Nước Ép Dưa Hấu", price: 20000, type: "nuoc", image: "images/hq720.jpg", desc: "Nguyên chất 100%, không đường.", rating: 4.6 },
-    { id: 14, name: "Coca Cola Tươi", price: 15000, type: "nuoc", image: "images/hq720.jpg", desc: "Ly lớn, kèm chanh tươi/đá.", rating: 4.5 },
-    { id: 15, name: "Chanh Tuyết Đá Xay", price: 25000, type: "nuoc", image: "images/hq720.jpg", desc: "Mát lạnh, chua ngọt sảng khoái.", rating: 4.7 },
+    { id: 11, name: "Trà Sữa Trân Châu", price: 25000, type: "nuoc", image: "images/mon-sua-chua-tran-chau-duong-den.jpg", desc: "Trà sữa thái, trân châu đen dai dai.", rating: 4.8 },
+    { id: 12, name: "Trà Đào Cam Sả", price: 30000, type: "nuoc", image: "images/tra-dao-cam-sa-cong-thuc-pha-che-chuan-vi.png", desc: "Thanh mát, giải nhiệt, miếng đào giòn.", rating: 4.9 },
+    { id: 13, name: "Nước Ép Dưa Hấu", price: 20000, type: "nuoc", image: "images/nuocepduahau.webp", desc: "Nguyên chất 100%, không đường.", rating: 4.6 },
+    { id: 14, name: "Coca Cola Tươi", price: 15000, type: "nuoc", image: "images/coca.jpg", desc: "Ly lớn, kèm chanh tươi/đá.", rating: 4.5 },
+    { id: 15, name: "Chanh Tuyết Đá Xay", price: 25000, type: "nuoc", image: "images/chanhtyet.webp", desc: "Mát lạnh, chua ngọt sảng khoái.", rating: 4.7 },
 ];
 
 let cart = [];
