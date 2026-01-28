@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cơm 24h - Hương vị tận tâm</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <h1>Cơm<span>24h</span></h1>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Tìm món ăn yêu thích...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-actions">
+                    <div class="action-btn" id="order-tracking-btn">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span>Đơn hàng</span>
+                    </div>
+                    <div class="action-btn" id="cart-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </div>
+                    <div class="action-btn" id="user-btn">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-container">
+                <div class="hero-left">
+                    <span class="hero-tag">🚀 Giao hàng siêu tốc 30p</span>
+                    <h2>Thưởng thức<br><span class="highlight">Bữa Cơm Ngon</span><br>Chuẩn vị mẹ nấu</h2>
+                    <p>Hương vị đậm đà, nguyên liệu tươi ngon, phục vụ 24/7 bất kể nắng mưa. Đặt món ngay để nhận ưu
+                        đãi!</p>
+                    <div class="hero-btns">
+                        <button class="cta-btn primary-cta" onclick="scrollToMenu()">Đặt Ngay <i
+                                class="fas fa-arrow-right"></i></button>
+                        <button class="cta-btn secondary-cta">Xem Menu</button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <strong>15+</strong>
+                            <span>Món ngon</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>5k+</strong>
+                            <span>Khách hàng</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>4.9</strong>
+                            <span><i class="fas fa-star text-warning"></i> Đánh giá</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="hero-image-wrapper">
+                        <img src="images/hq720.jpg" alt="Cơm ngon" class="hero-img floating"
+                            style="border-radius: 50%; aspect-ratio: 1/1; object-fit: cover;">
+                        <div class="floating-card c1">
+                            <i class="fas fa-heart text-danger"></i>
+                            <span>Yêu thích</span>
+                        </div>
+                        <div class="floating-card c2">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span>Tươi ngon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <section class="filters container">
+            <div class="category-tabs">
+                <button class="tab active" data-cate="all">Tất cả</button>
+                <button class="tab" data-cate="com">Cơm</button>
+                <button class="tab" data-cate="mi">Mì</button>
+                <button class="tab" data-cate="nuoc">Giải khát</button>
+                <button class="tab" data-cate="selling">Bán chạy</button>
+            </div>
+            <div class="sort-options">
+                <select id="sort-select">
+                    <option value="default">Sắp xếp</option>
+                    <option value="price-asc">Giá: Thấp -> Cao</option>
+                    <option value="price-desc">Giá: Cao -> Thấp</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Menu Grid -->
+        <section class="menu container" id="menu-section">
+            <div class="grid" id="product-grid">
+                <!-- Products will be injected here via JS -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Cơm 24h. Phục vụ 24/7.</p>
+        </footer>
+    </div>
+
+    <!-- Modals -->
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="modal cart-modal">
+            <div class="modal-header">
+                <h3>Giỏ Hàng</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="cart-items">
+                <!-- Cart items -->
+            </div>
+            <div class="modal-footer">
+                <div class="total-section">
+                    <span>Tổng tiền:</span>
+                    <span id="cart-total">0đ</span>
+                </div>
+                <button class="checkout-btn" id="checkout-btn">Thanh Toán</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal checkout-modal">
+            <div class="modal-header">
+                <h3>Xác Nhận Đơn Hàng</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="checkout-form">
+                    <div class="form-group">
+                        <label>Họ tên</label>
+                        <input type="text" required class="input-field" placeholder="Nguyễn Văn A">
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="tel" required class="input-field" placeholder="0909 xxx xxx">
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ giao hàng</label>
+                        <input type="text" required class="input-field" placeholder="Số nhà, đường, phường...">
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi chú cho quán</label>
+                        <textarea class="input-field" placeholder="Ít cơm, không hành, thêm canh..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Phương thức thanh toán</label>
+                        <div class="payment-methods">
+                            <label class="radio-label">
+                                <input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận hàng (COD)
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="payment" value="online"> Chuyển khoản / Ví điện tử
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="confirm-btn" id="confirm-order-btn">Đặt Hàng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal product-detail-modal">
+            <button class="close-modal abs-close">&times;</button>
+            <div class="product-detail-content" id="product-detail-body">
+                <!-- Content -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
