@@ -122,7 +122,7 @@
     <div class="modal-overlay" id="cart-modal">
         <div class="modal cart-modal">
             <div class="modal-header">
-                <h3>Giỏ Hàng</h3>
+                <h3>Giỏ Hàng Của Bạn</h3>
                 <button class="close-modal">&times;</button>
             </div>
             <div class="modal-body" id="cart-items">
@@ -130,10 +130,30 @@
             </div>
             <div class="modal-footer">
                 <div class="total-section">
-                    <span>Tổng tiền:</span>
+                    <span>Tổng tạm tính:</span>
                     <span id="cart-total">0đ</span>
                 </div>
-                <button class="checkout-btn" id="checkout-btn">Thanh Toán</button>
+                <button class="checkout-btn" id="checkout-btn">
+                    Tiến hành đặt hàng <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order History Modal -->
+    <div class="modal-overlay" id="order-history-modal">
+        <div class="modal order-history-modal">
+            <div class="modal-header">
+                <h3>Lịch Sử Đơn Hàng</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="order-history-list">
+                <!-- Orders will be injected here -->
+                <div class="empty-state">
+                    <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800926.png"
+                        alt="Empty" style="width: 150px; opacity: 0.5;">
+                    <p>Bạn chưa có đơn hàng nào.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -147,30 +167,60 @@
             </div>
             <div class="modal-body">
                 <form id="checkout-form">
-                    <div class="form-group">
-                        <label>Họ tên</label>
-                        <input type="text" required class="input-field" placeholder="Nguyễn Văn A">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Họ tên</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input type="text" required class="input-field" placeholder="Nhập họ tên của bạn">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone-alt input-icon"></i>
+                                <input type="tel" required class="input-field" placeholder="Nhập số điện thoại">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Số điện thoại</label>
-                        <input type="tel" required class="input-field" placeholder="0909 xxx xxx">
-                    </div>
+
                     <div class="form-group">
                         <label>Địa chỉ giao hàng</label>
-                        <input type="text" required class="input-field" placeholder="Số nhà, đường, phường...">
+                        <div class="input-wrapper">
+                            <i class="fas fa-map-marker-alt input-icon"></i>
+                            <input type="text" required class="input-field" placeholder="Số nhà, đường, phường...">
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Ghi chú cho quán</label>
-                        <textarea class="input-field" placeholder="Ít cơm, không hành, thêm canh..."></textarea>
+                        <div class="input-wrapper">
+                            <i class="fas fa-edit input-icon textarea-icon"></i>
+                            <textarea class="input-field" rows="2"
+                                placeholder="Ví dụ: Ít cơm, không hành, thêm canh..."></textarea>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Phương thức thanh toán</label>
                         <div class="payment-methods">
-                            <label class="radio-label">
-                                <input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận hàng (COD)
+                            <label class="payment-card selected">
+                                <input type="radio" name="payment" value="cod" checked>
+                                <div class="payment-icon"><i class="fas fa-money-bill-wave"></i></div>
+                                <div class="payment-info">
+                                    <span class="payment-title">Tiền mặt (COD)</span>
+                                    <span class="payment-desc">Thanh toán khi nhận hàng</span>
+                                </div>
+                                <i class="fas fa-check-circle check-mark"></i>
                             </label>
-                            <label class="radio-label">
-                                <input type="radio" name="payment" value="online"> Chuyển khoản / Ví điện tử
+                            <label class="payment-card">
+                                <input type="radio" name="payment" value="online">
+                                <div class="payment-icon"><i class="fas fa-qrcode"></i></div>
+                                <div class="payment-info">
+                                    <span class="payment-title">Chuyển khoản</span>
+                                    <span class="payment-desc">Qua ngân hàng / Ví điện tử</span>
+                                </div>
+                                <i class="fas fa-check-circle check-mark"></i>
                             </label>
                         </div>
                     </div>

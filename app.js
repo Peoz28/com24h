@@ -238,6 +238,15 @@ checkoutBtn.addEventListener('click', () => {
     checkoutModal.classList.add('active');
 });
 
+const orderTrackingBtn = document.getElementById('order-tracking-btn');
+const orderHistoryModal = document.getElementById('order-history-modal');
+const orderHistoryList = document.getElementById('order-history-list');
+
+// Load orders from localStorage
+let orders = JSON.parse(localStorage.getItem('com24h_orders')) || [];
+
+// ... [Previous Logic]
+
 confirmOrderBtn.addEventListener('click', () => {
     // Validate form (simplified)
     const inputs = document.querySelectorAll('#checkout-form input');
@@ -252,11 +261,89 @@ confirmOrderBtn.addEventListener('click', () => {
     }
 
     const payment = document.querySelector('input[name="payment"]:checked').value;
-    showToast(`Đặt hàng thành công! (Mã: #${Math.floor(Math.random() * 10000)})`);
+    const orderId = '#' + Math.floor(100000 + Math.random() * 900000); // 6-digit ID
+
+    // Create new order object
+    const newOrder = {
+        id: orderId,
+        date: new Date().toLocaleString('vi-VN'),
+        items: [...cart],
+        total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
+        payment: payment === 'cod' ? 'Tiền mặt (COD)' : 'Chuyển khoản',
+        status: 'pending' // pending, completed, cancelled
+    };
+
+    // Save order
+    orders.unshift(newOrder); // Add to beginning
+    localStorage.setItem('com24h_orders', JSON.stringify(orders));
+
+    showToast(`Đặt hàng thành công! Mã đơn: ${orderId}`);
+
     cart = [];
     updateCartIcon();
     checkoutModal.classList.remove('active');
 });
 
+// Order History Logic
+orderTrackingBtn.addEventListener('click', () => {
+    renderOrders();
+    orderHistoryModal.classList.add('active');
+});
+
+function renderOrders() {
+    if (orders.length === 0) {
+        orderHistoryList.innerHTML = `
+            <div class="empty-state">
+                <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800926.png" alt="Empty" style="width: 150px; opacity: 0.5;">
+                <p>Bạn chưa có đơn hàng nào.</p>
+            </div>
+        `;
+        return;
+    }
+
+    orderHistoryList.innerHTML = orders.map(order => {
+        const statusText = order.status === 'pending' ? 'Đang xử lý' :
+            order.status === 'completed' ? 'Hoàn tất' : 'Đã hủy';
+        const statusClass = order.status === 'pending' ? 'status-pending' :
+            order.status === 'completed' ? 'status-completed' : 'status-cancelled';
+
+        const itemsHtml = order.items.map(item => `
+            <div class="order-summary">
+                <span>${item.qty}x ${item.name}</span>
+                <span>${(item.price * item.qty).toLocaleString()}đ</span>
+            </div>
+        `).join('');
+
+        return `
+            <div class="order-item">
+                <div class="order-header">
+                    <span class="order-id">${order.id}</span>
+                    <span class="order-date">${order.date}</span>
+                </div>
+                <div class="order-body">
+                    ${itemsHtml}
+                </div>
+                <div class="order-total">
+                    <span class="order-status ${statusClass}">${statusText}</span>
+                    <span>${order.total.toLocaleString()}đ</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
 // Initial Render
 renderProducts(products);
+
+// Payment Method Selection UI Logic
+const paymentInputs = document.querySelectorAll('input[name="payment"]');
+paymentInputs.forEach(input => {
+    input.addEventListener('change', function () {
+        // Remove selected class from all cards
+        document.querySelectorAll('.payment-card').forEach(card => card.classList.remove('selected'));
+        // Add selected class to the parent label of the checked input
+        if (this.checked) {
+            this.closest('.payment-card').classList.add('selected');
+        }
+    });
+});
