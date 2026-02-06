@@ -4,30 +4,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Cơm 24h - Đặt cơm tối tân với giao hàng nhanh 30 phút. Khuyến mãi hàng ngày, hơn 15 món ăn ngon.">
+    <meta name="keywords" content="đặt cơm online, cơm văn phòng, mì, nước giải khát, giao hàng 24/7">
     <title>Cơm 24h - Hương vị tận tâm</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="upgrades.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 
 <body>
+    <a href="#menu-section" class="skip-to-main">Bỏ qua đến nội dung chính</a>
+    <button class="dark-mode-toggle" id="dark-mode-toggle" title="Chuyển chế độ tối">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Announcement Banner -->
+    <div class="announcement-banner" id="announcement-banner">
+        <div class="announcement-content">
+            <span>🎉 <strong>FLASH SALE HÔM NAY</strong> - Giảm 20% tất cả đơn hàng trên 100k! Kết thúc trong <span
+                    id="sale-countdown">02:45:30</span></span>
+        </div>
+        <button class="announcement-close" id="announcement-close">✕</button>
+    </div>
+
+    <!-- Live Chat Widget -->
+    <div class="chat-widget" id="chat-widget">
+        <button class="chat-bubble" id="chat-bubble" title="Chat với chúng tôi">
+            <i class="fas fa-comments"></i>
+            <span class="chat-badge">1</span>
+        </button>
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <div>
+                    <h4>💬 Chat với Cơm 24h</h4>
+                    <span class="chat-status">🟢 Online</span>
+                </div>
+                <button class="chat-minimize" id="chat-minimize">−</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message bot">
+                    <div class="chat-avatar">🤖</div>
+                    <div class="chat-bubble-msg">
+                        <p>Xin chào! Tôi có thể giúp gì cho bạn?</p>
+                        <span class="chat-time">Vừa xong</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-quick-replies">
+                <button class="quick-reply" data-reply="Menu hôm nay">📋 Menu hôm nay</button>
+                <button class="quick-reply" data-reply="Thời gian giao hàng">⏱️ Thời gian giao</button>
+                <button class="quick-reply" data-reply="Khuyến mãi">🎁 Khuyến mãi</button>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Nhập tin nhắn...">
+                <button id="chat-send"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spin Wheel Button -->
+    <button class="spin-wheel-btn" id="spin-wheel-btn" title="Quay may mắn hôm nay">
+        <i class="fas fa-gift"></i>
+    </button>
+
     <div id="app">
         <!-- Header -->
         <header class="header">
             <div class="container">
+                <button class="hamburger-menu" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div class="logo">
                     <h1>Cơm<span>24h</span></h1>
                 </div>
                 <div class="search-bar">
                     <input type="text" id="search-input" placeholder="Tìm món ăn yêu thích...">
+                    <div class="search-suggestions" id="search-suggestions"></div>
                     <button id="search-btn"><i class="fas fa-search"></i></button>
                 </div>
                 <div class="user-actions">
+                    <div class="action-btn" id="wishlist-btn">
+                        <i class="fas fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </div>
                     <div class="action-btn" id="order-tracking-btn">
                         <i class="fas fa-shipping-fast"></i>
                         <span>Đơn hàng</span>
+                    </div>
+                    <div class="action-btn" id="stats-btn" title="Thống kê">
+                        <i class="fas fa-chart-bar"></i>
                     </div>
                     <div class="action-btn" id="cart-btn">
                         <i class="fas fa-shopping-bag"></i>
@@ -36,8 +112,27 @@
                     <div class="action-btn" id="user-btn">
                         <i class="fas fa-user-circle"></i>
                     </div>
+                    <div class="action-btn" id="lang-toggle" title="Chuyển ngôn ngữ">
+                        <span style="font-weight: 700;">VI</span>
+                    </div>
                 </div>
             </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobile-menu">
+                <div class="mobile-menu-header">
+                    <h3>MENU</h3>
+                    <button class="close-menu" id="close-menu">✕</button>
+                </div>
+                <div class="mobile-menu-items">
+                    <a href="#" class="mobile-menu-item" data-cate="all">📋 Tất cả</a>
+                    <a href="#" class="mobile-menu-item" data-cate="com">🍚 Cơm</a>
+                    <a href="#" class="mobile-menu-item" data-cate="mi">🍜 Mì</a>
+                    <a href="#" class="mobile-menu-item" data-cate="nuoc">🥤 Giải khát</a>
+                    <a href="#" class="mobile-menu-item" data-cate="selling">🔥 Bán chạy</a>
+                </div>
+            </div>
+            <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
         </header>
 
         <!-- Hero Section -->
@@ -86,21 +181,74 @@
             </div>
         </section>
 
+        <!-- Deal Countdown Banner -->
+        <section class="countdown-banner">
+            <div class="container countdown-content">
+                <div class="countdown-header">
+                    <div class="countdown-text">
+                        <i class="fas fa-fire" style="color: white; margin-right: 8px;"></i>
+                        <span class="countdown-label">🎉 <strong>Flash Sale - 30 Phút</strong></span>
+                    </div>
+                    <div class="countdown-timer" id="flash-countdown">
+                        00:30:00
+                    </div>
+                </div>
+                <div class="countdown-deals" id="countdown-deals">
+                    <!-- Flash sale products will be populated here -->
+                </div>
+            </div>
+        </section>
+
         <!-- Filters -->
         <section class="filters container">
-            <div class="category-tabs">
-                <button class="tab active" data-cate="all">Tất cả</button>
-                <button class="tab" data-cate="com">Cơm</button>
-                <button class="tab" data-cate="mi">Mì</button>
-                <button class="tab" data-cate="nuoc">Giải khát</button>
-                <button class="tab" data-cate="selling">Bán chạy</button>
+            <div class="filters-wrapper">
+                <div class="category-tabs">
+                    <button class="tab active" data-cate="all">Tất cả</button>
+                    <button class="tab" data-cate="com">Cơm</button>
+                    <button class="tab" data-cate="mi">Mì</button>
+                    <button class="tab" data-cate="nuoc">Giải khát</button>
+                    <button class="tab" data-cate="selling">Bán chạy</button>
+                </div>
+                <button class="filter-toggle-btn" id="filter-toggle">
+                    <i class="fas fa-sliders-h"></i> Bộ lọc
+                </button>
             </div>
-            <div class="sort-options">
-                <select id="sort-select">
-                    <option value="default">Sắp xếp</option>
-                    <option value="price-asc">Giá: Thấp -> Cao</option>
-                    <option value="price-desc">Giá: Cao -> Thấp</option>
-                </select>
+
+            <!-- Advanced Filters -->
+            <div class="advanced-filters" id="advanced-filters">
+                <div class="filter-group">
+                    <label>💰 Khoảng Giá</label>
+                    <div class="price-range">
+                        <input type="range" id="price-min" min="15000" max="60000" value="15000" step="5000">
+                        <input type="range" id="price-max" min="15000" max="60000" value="60000" step="5000">
+                    </div>
+                    <div class="price-display">
+                        <span id="price-min-val">15.000đ</span> - <span id="price-max-val">60.000đ</span>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>⭐ Đánh Giá</label>
+                    <div class="rating-filter">
+                        <button class="rating-btn active" data-rating="all">Tất cả</button>
+                        <button class="rating-btn" data-rating="5">⭐⭐⭐⭐⭐ 5.0</button>
+                        <button class="rating-btn" data-rating="4.8">⭐⭐⭐⭐⭐ 4.8+</button>
+                        <button class="rating-btn" data-rating="4.5">⭐⭐⭐⭐⭐ 4.5+</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Sắp Xếp</label>
+                    <select id="sort-select">
+                        <option value="default">Mặc định</option>
+                        <option value="price-asc">Giá: Thấp → Cao</option>
+                        <option value="price-desc">Giá: Cao → Thấp</option>
+                        <option value="rating">Đánh giá cao nhất</option>
+                        <option value="name">Tên A-Z</option>
+                    </select>
+                </div>
+
+                <button class="reset-filters-btn" id="reset-filters">↻ Đặt Lại</button>
             </div>
         </section>
 
@@ -111,10 +259,106 @@
             </div>
         </section>
 
+        <!-- Testimonials Section -->
+        <section class="testimonials-section container">
+            <h2 class="section-title">💬 Khách Hàng Nói Gì?</h2>
+            <div class="testimonials-carousel" id="testimonials-carousel">
+                <button class="testimonial-nav prev" id="testimonial-prev">❮</button>
+                <div class="testimonials-wrapper">
+                    <div class="testimonial-card active">
+                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="testimonial-text">"Cơm ngon, giao hàng nhanh, giá cả hợp lý. Tôi đặt hàng ở đây mỗi
+                            ngày!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/150?img=1" alt="Customer" class="testimonial-avatar">
+                            <div>
+                                <h4>Nguyễn Văn A</h4>
+                                <span>Khách hàng thân thiết</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="testimonial-text">"Món ăn đa dạng, phục vụ nhiệt tình. Rất đáng để thử!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/150?img=5" alt="Customer" class="testimonial-avatar">
+                            <div>
+                                <h4>Trần Thị B</h4>
+                                <span>Dân văn phòng</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="testimonial-text">"Chất lượng tuyệt vời, giao đúng giờ. 5 sao không có gì để chê!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/150?img=8" alt="Customer" class="testimonial-avatar">
+                            <div>
+                                <h4>Lê Minh C</h4>
+                                <span>Sinh viên</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="testimonial-nav next" id="testimonial-next">❯</button>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Cơm 24h</h3>
+                    <p>Hương vị tận tâm, phục vụ 24/7</p>
+                    <div class="social-share">
+                        <button class="share-btn facebook" title="Chia sẻ Facebook"><i
+                                class="fab fa-facebook-f"></i></button>
+                        <button class="share-btn twitter" title="Chia sẻ Twitter"><i
+                                class="fab fa-twitter"></i></button>
+                        <button class="share-btn whatsapp" title="Chia sẻ WhatsApp"><i
+                                class="fab fa-whatsapp"></i></button>
+                        <button class="share-btn telegram" title="Chia sẻ Telegram"><i
+                                class="fab fa-telegram"></i></button>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Fanpage Facebook</h4>
+                    <div class="fb-page-wrapper">
+                        <iframe
+                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100080474204234%26locale%3Dvi_VN&tabs=timeline&width=340&height=300&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                            width="340" height="300" style="border:none;overflow:hidden;max-width:100%;" scrolling="no"
+                            frameborder="0" allowfullscreen="true"
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                        </iframe>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Hệ</h4>
+                    <p>📞 0901234567</p>
+                    <p>📧 kmbb2811@gmail.com</p>
+                    <p>📍 Hải Phòng</p>
+                </div>
+            </div>
             <p>&copy; 2024 Cơm 24h. Phục vụ 24/7.</p>
         </footer>
+    </div>
+
+    <!-- Modals -->
+    <!-- Wishlist Modal -->
+    <div class="modal-overlay" id="wishlist-modal">
+        <div class="modal wishlist-modal">
+            <div class="modal-header">
+                <h3>❤️ Yêu Thích</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="wishlist-items">
+                <div class="empty-state">
+                    <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-wishlist-6677042-5475510.png"
+                        alt="Empty" style="width: 150px; opacity: 0.5;">
+                    <p>Bạn chưa thêm sản phẩm yêu thích nào.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modals -->
@@ -136,6 +380,15 @@
                 <button class="checkout-btn" id="checkout-btn">
                     Tiến hành đặt hàng <i class="fas fa-arrow-right"></i>
                 </button>
+            </div>
+
+            <!-- Recently Viewed -->
+            <div id="recently-viewed-section"
+                style="display: none; padding: 0 24px 24px; border-top: 1px solid #e5e7eb; margin-top: 24px;">
+                <h4 style="margin-bottom: 12px; font-size: 14px; font-weight: 700; color: var(--text-muted);">HÀNG VỪA
+                    XEM</h4>
+                <div id="recently-viewed-items"
+                    style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;"></div>
             </div>
         </div>
     </div>
@@ -165,6 +418,24 @@
                 <h3>Xác Nhận Đơn Hàng</h3>
                 <button class="close-modal">&times;</button>
             </div>
+
+            <!-- Progress Indicator -->
+            <div class="checkout-progress">
+                <div class="progress-step active" data-step="1">
+                    <div class="progress-circle">1</div>
+                    <span>Giỏ Hàng</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step active" data-step="2">
+                    <div class="progress-circle">2</div>
+                    <span>Thông Tin</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="progress-circle">3</div>
+                    <span>Xác Nhận</span>
+                </div>
+            </div>
             <div class="modal-body">
                 <form id="checkout-form">
                     <div class="form-grid">
@@ -172,15 +443,19 @@
                             <label>Họ tên</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-user input-icon"></i>
-                                <input type="text" required class="input-field" placeholder="Nhập họ tên của bạn">
+                                <input type="text" required class="input-field" placeholder="Nhập họ tên của bạn"
+                                    data-field="name">
                             </div>
+                            <div class="form-error">Vui lòng nhập họ tên (ít nhất 3 ký tự)</div>
                         </div>
                         <div class="form-group">
                             <label>Số điện thoại</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-phone-alt input-icon"></i>
-                                <input type="tel" required class="input-field" placeholder="Nhập số điện thoại">
+                                <input type="tel" required class="input-field" placeholder="Nhập số điện thoại"
+                                    data-field="phone">
                             </div>
+                            <div class="form-error">Vui lòng nhập số điện thoại hợp lệ (10-11 chữ số)</div>
                         </div>
                     </div>
 
@@ -188,17 +463,32 @@
                         <label>Địa chỉ giao hàng</label>
                         <div class="input-wrapper">
                             <i class="fas fa-map-marker-alt input-icon"></i>
-                            <input type="text" required class="input-field" placeholder="Số nhà, đường, phường...">
+                            <input type="text" required class="input-field" placeholder="Số nhà, đường, phường..."
+                                data-field="address">
                         </div>
+                        <div class="form-error">Vui lòng nhập địa chỉ giao hàng</div>
                     </div>
 
                     <div class="form-group">
                         <label>Ghi chú cho quán</label>
                         <div class="input-wrapper">
                             <i class="fas fa-edit input-icon textarea-icon"></i>
-                            <textarea class="input-field" rows="2"
-                                placeholder="Ví dụ: Ít cơm, không hành, thêm canh..."></textarea>
+                            <textarea class="input-field" rows="2" placeholder="Ví dụ: Ít cơm, không hành, thêm canh..."
+                                data-field="notes"></textarea>
                         </div>
+                        <div class="form-helper">Tùy chọn - Bạn có thể thêm yêu cầu đặc biệt cho quán</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mã giảm giá</label>
+                        <div style="display: flex; gap: 8px;">
+                            <div class="input-wrapper" style="flex: 1;">
+                                <i class="fas fa-tag input-icon"></i>
+                                <input type="text" class="input-field" placeholder="Nhập mã giảm giá" id="promo-input">
+                            </div>
+                            <button type="button" class="apply-promo-btn" id="apply-promo-btn">Áp Dụng</button>
+                        </div>
+                        <div class="form-helper" id="promo-message">Mã có sẵn: WELCOME10, FREESHIP, SAVE20K</div>
                     </div>
 
                     <div class="form-group">
@@ -227,11 +517,81 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="confirm-btn" id="confirm-order-btn">Đặt Hàng</button>
+                <button class="checkout-btn" id="prev-step-btn" style="background: #E5E7EB; color: var(--text-main);">
+                    <i class="fas fa-arrow-left"></i> Quay Lại
+                </button>
+                <button class="checkout-btn" id="confirm-order-btn">Xác Nhận <i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
 
+    <!-- Product Image Gallery Modal -->
+    <div class="modal-overlay" id="gallery-modal">
+        <div class="gallery-modal-content">
+            <button class="close-modal">&times;</button>
+            <img src="" alt="Gallery" id="gallery-image" class="gallery-image">
+            <div class="gallery-controls">
+                <button id="zoom-in-btn" class="zoom-btn"><i class="fas fa-plus"></i></button>
+                <span id="zoom-level">100%</span>
+                <button id="zoom-out-btn" class="zoom-btn"><i class="fas fa-minus"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Popup -->
+    <div class="modal-overlay" id="welcome-modal">
+        <div class="modal welcome-modal">
+            <button class="close-modal" id="close-welcome">&times;</button>
+            <div class="modal-body">
+                <div class="welcome-content">
+                    <div class="welcome-icon">🎉</div>
+                    <h2>Chào Mừng Đến Cơm 24h!</h2>
+                    <p>Nhận ngay <strong style="color: var(--primary);">mã giảm 20%</strong> cho đơn hàng đầu tiên!</p>
+                    <div class="promo-code-box">
+                        <code id="promo-code">WELCOME20</code>
+                        <button class="copy-code-btn" id="copy-promo"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                    <form class="email-subscribe">
+                        <input type="email" placeholder="Nhập email để nhận ưu đãi" id="subscribe-email">
+                        <button type="submit" class="subscribe-btn">Đăng Ký</button>
+                    </form>
+                    <button class="browse-btn" id="browse-btn">Khám Phá Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spin Wheel Modal -->
+    <div class="modal-overlay" id="spin-modal">
+        <div class="modal spin-modal">
+            <button class="close-modal" id="close-spin">&times;</button>
+            <div class="modal-body">
+                <h2>🎡 Quay May Mắn Hôm Nay!</h2>
+                <p style="margin-bottom: 20px;">Quay để nhận mã giảm giá ngẫu nhiên</p>
+                <div class="spin-wheel-container">
+                    <canvas id="spin-canvas" width="300" height="300"></canvas>
+                    <button class="spin-button" id="spin-button">QUAY</button>
+                </div>
+                <p id="spin-result" class="spin-result"></p>
+                <p id="spin-next" class="spin-next"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div class="achievement-toast" id="achievement-toast">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-content">
+            <h4 id="achievement-title">Achievement Unlocked!</h4>
+            <p id="achievement-desc">Description</p>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <canvas id="confetti-canvas"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+
+    <!-- Product Image Gallery Modal -->
     <!-- Product Detail Modal -->
     <div class="modal-overlay" id="product-modal">
         <div class="modal product-detail-modal">
@@ -242,7 +602,102 @@
         </div>
     </div>
 
+    <!-- Rating Modal -->
+    <div class="modal-overlay" id="rating-modal">
+        <div class="modal rating-modal">
+            <div class="modal-header">
+                <h3>⭐ Đánh Giá Sản Phẩm</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="rating-form">
+                    <div class="rating-input-group">
+                        <label>Sản phẩm</label>
+                        <select id="rating-product" required>
+                            <option value="">-- Chọn sản phẩm --</option>
+                        </select>
+                    </div>
+                    <div class="rating-input-group">
+                        <label>Đánh giá</label>
+                        <div class="star-rating" id="star-rating">
+                            <i class="fas fa-star" data-rating="5"></i>
+                            <i class="fas fa-star" data-rating="4"></i>
+                            <i class="fas fa-star" data-rating="3"></i>
+                            <i class="fas fa-star" data-rating="2"></i>
+                            <i class="fas fa-star" data-rating="1"></i>
+                        </div>
+                        <span id="rating-display">0/5 sao</span>
+                    </div>
+                    <div class="rating-input-group">
+                        <label>Bình luận</label>
+                        <textarea id="rating-comment" placeholder="Chia sẻ trải nghiệm của bạn..." rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="submit-rating-btn">Gửi Đánh Giá</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Modal -->
+    <div class="modal-overlay" id="stats-modal">
+        <div class="modal stats-modal">
+            <div class="modal-header">
+                <h3>📊 Thống Kê Của Bạn</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🛒</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Tổng đơn hàng</p>
+                            <p class="stat-value" id="stat-total-orders">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Tổng chi tiêu</p>
+                            <p class="stat-value" id="stat-total-spending">0đ</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Đánh giá</p>
+                            <p class="stat-value" id="stat-total-ratings">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❤️</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Yêu thích</p>
+                            <p class="stat-value" id="stat-total-favorites">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="top-items-section" style="margin-top: 20px;">
+                    <h4>🏆 Món Ăn Yêu Thích Nhất</h4>
+                    <div id="top-items" style="max-height: 300px; overflow-y: auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js').then(reg => {
+                    console.log('✅ Service Worker registered:', reg);
+                }).catch(err => {
+                    console.error('❌ Service Worker registration failed:', err);
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>

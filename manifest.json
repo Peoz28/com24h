@@ -1,0 +1,72 @@
+{
+  "name": "Cơm 24h - Cơm Văn Phòng Giao Tận Nơi",
+  "short_name": "Cơm 24h",
+  "description": "Đặt cơm, mì, nước giải khát giao hàng nhanh 30 phút 24/7",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FF5E00",
+  "scope": "/",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23FF5E00' width='192' height='192'/><text x='50%' y='50%' font-size='120' font-weight='bold' text-anchor='middle' dy='.3em' fill='white' font-family='Arial'>Cơm</text><text x='50%' y='75%' font-size='60' text-anchor='middle' fill='white' font-family='Arial'>24h</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%23FF5E00' width='512' height='512'/><text x='50%' y='50%' font-size='320' font-weight='bold' text-anchor='middle' dy='.3em' fill='white' font-family='Arial'>Cơm</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["food", "shopping"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23F9FAFB' width='540' height='720'/><text x='50%' y='360' font-size='100' font-weight='bold' text-anchor='middle' dy='.3em' fill='%23FF5E00'>Cơm 24h</text></svg>",
+      "sizes": "540x720",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Xem Menu",
+      "short_name": "Menu",
+      "description": "Xem danh sách các món ăn",
+      "url": "/?menu=1",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='48' fill='%23FF5E00'/><text x='50%' y='50%' font-size='60' text-anchor='middle' dy='.3em' fill='white'>📋</text></svg>",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Giỏ Hàng",
+      "short_name": "Giỏ",
+      "description": "Xem giỏ hàng của bạn",
+      "url": "/?cart=1",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='48' fill='%23FF5E00'/><text x='50%' y='50%' font-size='60' text-anchor='middle' dy='.3em' fill='white'>🛒</text></svg>",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "files": [
+        {
+          "name": "images",
+          "accept": ["image/*"]
+        }
+      ]
+    }
+  }
+}
