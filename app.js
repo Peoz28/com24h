@@ -104,7 +104,7 @@ function renderProducts(items) {
                     <span class="product-price">${p.price.toLocaleString()}đ</span>
                 </div>
                 <p class="product-desc">${p.desc}</p>
-                <button class="add-btn" onclick="addToCart(${p.id})">Thêm vào giỏ</button>
+                <button class="add-btn" onclick="addToCart(${p.id}, event)">Thêm vào giỏ</button>
                 <div class="product-rating-section">
                     <div class="rating-stars" data-product-id="${p.id}">
                         <span class="rating-star" data-rating="1" onclick="rateProduct(${p.id}, 1)">★</span>
@@ -139,7 +139,7 @@ function showDetail(id) {
                  </div>
                  <p><i>"Món ăn rất ngon, giao hàng nhanh!" - Khách hàng ẩn danh</i></p>
             </div>
-            <button class="add-btn" style="margin-top:20px;" onclick="addToCart(${p.id})">Thêm vào giỏ hàng ngay</button>
+            <button class="add-btn" style="margin-top:20px;" onclick="addToCart(${p.id}, event)">Thêm vào giỏ hàng ngay</button>
         </div>
     `;
     productDetailModal.classList.add('active');
@@ -1390,7 +1390,7 @@ function renderFlashSaleProducts() {
         if (!product) return '';
 
         return `
-            <div class="countdown-deal-card" onclick="addToCartFromFlash(${product.id})">
+            <div class="countdown-deal-card" onclick="addToCartFromFlash(${product.id}, event)">
                 <div class="deal-image-wrapper">
                     <img src="${product.image}" alt="${product.name}">
                     <div class="deal-discount-badge">-${deal.discount}%</div>
@@ -1443,7 +1443,9 @@ function initFlashSaleCountdown() {
 }
 
 // Add to cart from flash sale (with sale price)
-function addToCartFromFlash(productId) {
+function addToCartFromFlash(productId, event) {
+    if (event) event.stopPropagation();
+
     const product = products.find(p => p.id === productId);
     const flashDeal = flashSaleProducts.find(d => d.productId === productId);
 
@@ -1460,37 +1462,95 @@ function addToCartFromFlash(productId) {
             cart.push({ ...cartItem, qty: 1 });
         }
 
-        updateCartIcon();
+        // Trigger Fly Animation if event exists, otherwise just update
+        if (event && event.target) {
+            let startEl = event.target.closest('.countdown-deal-card').querySelector('img');
+            flyToCart(startEl);
+        } else {
+            updateCartIcon();
+        }
+
         renderCart();
         showToast(`Đã thêm ${product.name} vào giỏ!`);
     }
 }
 
-// HEADER HIDE ON SCROLL
-let lastScrollTop = 0;
-let isHeaderHidden = false;
-const header = document.querySelector('.header');
+// === FLY TO CART ANIMATION ===
+function flyToCart(startEl) {
+    if (!startEl) return;
 
-window.addEventListener('scroll', () => {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    // Create clone of the product image
+    const clone = startEl.cloneNode(true);
+    const rect = startEl.getBoundingClientRect();
+    const cartBtn = document.getElementById('cart-btn');
+    const cartRect = cartBtn.getBoundingClientRect();
 
-    // Check if scrolling down
-    if (scrollTop > lastScrollTop && scrollTop > 100) {
-        // Scrolling DOWN
-        if (!isHeaderHidden) {
-            header.classList.add('hide');
-            isHeaderHidden = true;
-        }
+    clone.style.position = 'fixed';
+    clone.style.left = rect.left + 'px';
+    clone.style.top = rect.top + 'px';
+    clone.style.width = rect.width + 'px';
+    clone.style.height = rect.height + 'px';
+    clone.style.zIndex = '9999';
+    clone.style.borderRadius = '50%';
+    clone.style.transition = 'all 0.8s cubic-bezier(0.19, 1, 0.22, 1)';
+    clone.style.opacity = '0.8';
+
+    document.body.appendChild(clone);
+
+    // Force reflow
+    void clone.offsetWidth;
+
+    // Animate to cart position
+    clone.style.left = (cartRect.left + 10) + 'px';
+    clone.style.top = (cartRect.top + 10) + 'px';
+    clone.style.width = '20px';
+    clone.style.height = '20px';
+    clone.style.opacity = '0';
+
+    // Cleanup and bounce cart
+    setTimeout(() => {
+        clone.remove();
+        cartBtn.classList.add('bump'); // Add bounce effect CSS class
+        updateCartIcon(); // Update number *after* animation arrives
+        setTimeout(() => cartBtn.classList.remove('bump'), 300);
+    }, 800);
+}
+
+// Updated standard addToCart to use animation
+// Updated standard addToCart to use animation
+window.addToCart = function (id, event) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+
+    const existing = cart.find(x => x.id === id);
+    if (existing) {
+        existing.qty++;
     } else {
-        // Scrolling UP
-        if (isHeaderHidden) {
-            header.classList.remove('hide');
-            isHeaderHidden = false;
-        }
+        cart.push({ ...p, qty: 1 });
     }
 
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
-});
+    renderCart();
+
+    // Animation
+    if (event && event.target) {
+        // Try to find image in card
+        let card = event.target.closest('.product-card') || event.target.closest('.product-detail-content');
+        let img = card ? card.querySelector('img') : null;
+        if (img) flyToCart(img);
+        else updateCartIcon();
+    } else {
+        updateCartIcon();
+    }
+
+    // Save cart automatically (consolidated logic)
+    saveCart();
+
+    showToast(`Đã thêm ${p.name} vào giỏ!`);
+};
+
+// HEADER FIXED (Auto-hide removed for better mobile experience)
+const header = document.querySelector('.header');
+// window.addEventListener('scroll', () => { ... }); REMOVED
 
 // 1. COUPON / PROMO CODE LOGIC
 function initPromoCode() {
@@ -1735,11 +1795,8 @@ function saveCart() {
 }
 
 // Override addToCart and removeItem to save automatically
-const originalAddToCart = window.addToCart;
-window.addToCart = function (id) {
-    originalAddToCart(id);
-    saveCart();
-};
+// Override addToCart and removeItem to save automatically
+// (addToCart is already overridden above with animation + save support)
 
 const originalRemoveItem = window.removeItem;
 window.removeItem = function (id) {
